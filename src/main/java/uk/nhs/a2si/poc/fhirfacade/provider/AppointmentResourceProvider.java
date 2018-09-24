@@ -45,7 +45,7 @@ public class AppointmentResourceProvider implements IResourceProvider {
     public Class<Appointment> getResourceType() {
         return Appointment.class;
     }
-    
+
 
     @Read
     public Appointment getAppointmentById(HttpServletRequest httpRequest, @IdParam IdType internalId) throws Exception {
@@ -85,7 +85,7 @@ public class AppointmentResourceProvider implements IResourceProvider {
     }
 
     @Search
-    public List<Appointment> searchHealthcareService(HttpServletRequest httpRequest,
+    public List<Appointment> searchAppointment(HttpServletRequest httpRequest,
                                                            @OptionalParam(name = Appointment.SP_IDENTIFIER) TokenParam identifier,
                                                            @OptionalParam(name = Appointment.SP_LOCATION) StringParam location,
                                                          //  @OptionalParam(name= Appointment.SP_TYPE) TokenOrListParam codes,
@@ -97,7 +97,7 @@ public class AppointmentResourceProvider implements IResourceProvider {
 
         ProducerTemplate template = context.createProducerTemplate();
 
-        InputStream inputStream = (InputStream) template.sendBody("direct:FHIRHealthcareService",
+        InputStream inputStream = (InputStream) template.sendBody("direct:FHIRAppointment",
                 ExchangePattern.InOut,httpRequest);
 
         Bundle bundle = null;
