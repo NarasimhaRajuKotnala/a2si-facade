@@ -61,7 +61,7 @@ public class AppointmentResourceProvider implements IResourceProvider {
                 inputStream = (InputStream) template.sendBody("direct:FHIRAppointment",
                         ExchangePattern.InOut, httpRequest);
             } else {
-                Exchange exchange = template.send("direct:FHIRHealthcareService",ExchangePattern.InOut, new Processor() {
+                Exchange exchange = template.send("direct:FHIRAppointment",ExchangePattern.InOut, new Processor() {
                     public void process(Exchange exchange) throws Exception {
                         exchange.getIn().setHeader(Exchange.HTTP_QUERY, null);
                         exchange.getIn().setHeader(Exchange.HTTP_METHOD, "GET");

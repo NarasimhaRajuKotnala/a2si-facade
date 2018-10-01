@@ -8,9 +8,7 @@ import ca.uhn.fhir.rest.param.TokenParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import ca.uhn.fhir.rest.server.exceptions.InternalErrorException;
 import org.apache.camel.*;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.IdType;
-import org.hl7.fhir.dstu3.model.Slot;
+import org.hl7.fhir.dstu3.model.*;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,7 +100,7 @@ public class SlotResourceProvider implements IResourceProvider {
             InputStream inputStream = null;
             String newXmlResource = ctx.newXmlParser().encodeResourceToString(slot);
 
-            Exchange exchangeBundle = template.send("direct:FHIRSchedule", ExchangePattern.InOut, new Processor() {
+            Exchange exchangeBundle = template.send("direct:FHIRSlot", ExchangePattern.InOut, new Processor() {
                 public void process(Exchange exchange) throws Exception {
                     exchange.getIn().setBody(newXmlResource);
                     exchange.getIn().setHeader("Prefer", "return=representation");
@@ -138,9 +136,11 @@ public class SlotResourceProvider implements IResourceProvider {
     @Search
     public List<Slot> searchSlot(HttpServletRequest httpRequest,
                                                            @OptionalParam(name = Slot.SP_IDENTIFIER) TokenParam identifier,
-                                                           @OptionalParam(name= Slot.SP_SCHEDULE) StringParam schedule,
+                                                           //@OptionalParam(name= Slot.SP_SCHEDULE + HealthcareService.SP_IDENTIFIER) StringParam schedule,
                                                            @OptionalParam(name = Slot.SP_STATUS) TokenParam status,
                                                            @OptionalParam(name = Slot.SP_START) TokenParam start
+                                                           //@OptionalParam(name = Slot.)
+                                                           //@OptionalParam(name = Slot.SP_IDENTIFIER)
                                                            //@OptionalParam(name = Slot.SP_) TokenParam end
                                                            //   @OptionalParam(name = Schedule.SP_ORGANIZATION) ReferenceParam organisation
               ) throws Exception {
